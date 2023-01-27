@@ -15,7 +15,7 @@ namespace Library.LMS.Models
         public string Description { get { return _description; } set { _description = value; } }
 
         private string _path;
-        public string Path { get { return _path} set { _path = value; } }
+        public string Path { get { return _path; } set { _path = value; } }
 
         public ContentItem() { }
     }
