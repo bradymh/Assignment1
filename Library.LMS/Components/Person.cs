@@ -15,8 +15,36 @@ namespace Library.LMS.Components
         public string Classification { get { return _classification; } set { _classification = value; } }
 
         //grades
+        public Dictionary<Assignment, string> Grades = new Dictionary<Assignment, string>();
 
+        public void AddGrade(Assignment a, string grade)
+        {
+            try
+            {
+                Grades.Add(a, grade);
+            }
+            catch 
+            {
+                Console.WriteLine("Assignment already exists");
+            }
+        }
         public Person() { }
+
+        public override string ToString()
+        {
+            Console.WriteLine($"{Name} - {Classification}:");
+            DisplayGrades();
+            return "";
+        }
+
+        public void DisplayGrades()
+        {
+            foreach(var a in Grades)
+            {
+                Console.Write(a.Key);
+                Console.WriteLine($"Grade: {a.Value}");
+            }
+        }
 
     }
 }

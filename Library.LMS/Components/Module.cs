@@ -17,5 +17,10 @@ namespace Library.LMS.Components
         List<ContentItem> Content = new List<ContentItem>();
 
         public Module() { }
+
+        public override string ToString()
+        {
+            return $"{Name} - {Description}";
+        }
     }
 }

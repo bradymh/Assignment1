@@ -18,5 +18,10 @@ namespace Library.LMS.Components
         public string Path { get { return _path; } set { _path = value; } }
 
         public ContentItem() { }
+
+        public override string ToString()
+        {
+            return $"{Name} - {Description}";
+        }
     }
 }

@@ -13,17 +13,27 @@ namespace Library.LMS.Components
         private string _description;
         public string Description { get { return _description;} set { _description = value; } }
 
-        List<Person> Roster = new List<Person>();
+        public List<Person> Roster = new List<Person>();
 
-        List<Assignment> Assignments = new List<Assignment>();
+        public List<Assignment> Assignments = new List<Assignment>();
 
-        List<Module> Modules = new List<Module>();
+        public List<Module> Modules = new List<Module>();
 
         public Course() { }
 
-        public void AddStudent()
+        public void AddStudent(Person student)
         {
+            Roster.Add(student);
+        }
 
+        public void AddAssignment(Assignment assignment) 
+        {
+            Assignments.Add(assignment);
+        }
+
+        public void AddModule(Module module)
+        {
+            Modules.Add(module);
         }
 
     }
