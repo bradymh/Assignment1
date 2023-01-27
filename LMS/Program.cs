@@ -15,7 +15,7 @@ namespace LMS
             Assignment assignment1 = new Assignment();
             assignment1.DueDate = "1/2/22";
             assignment1.Name = "TestAssign";
-            assignment1.TotalAvailablePoints = 100;
+            assignment1.TotalAvailablePoints = "100";
             assignment1.Description = "Description";
 
 
