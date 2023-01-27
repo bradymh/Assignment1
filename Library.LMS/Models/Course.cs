@@ -19,5 +19,10 @@
 
         public Course() { }
 
+        public void AddStudent()
+        {
+
+        }
+
     }
 }
