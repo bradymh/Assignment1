@@ -1,4 +1,6 @@
-﻿namespace Library.LMS.Models
+﻿using Library.LMS.Components;
+
+namespace Library.LMS.Components
 {
     public class Course
     {

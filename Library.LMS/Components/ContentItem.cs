@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.LMS.Models
+namespace Library.LMS.Components
 {
     public class ContentItem
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.LMS.Models
+namespace Library.LMS.Components
 {
     public class Person
     {
@@ -15,7 +15,7 @@ namespace Library.LMS.Models
         public string Classification { get { return _classification; } set { _classification = value; } }
 
         //grades
-        
+
         public Person() { }
 
     }

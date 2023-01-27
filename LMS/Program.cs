@@ -1,4 +1,4 @@
-﻿using Library.LMS.Models;
+﻿using Library.LMS.Components;
 
 namespace LMS
 {
