@@ -28,13 +28,17 @@ namespace Library.LMS.Components
                 Console.WriteLine("Assignment already exists");
             }
         }
+
         public Person() { }
+        public Person(string n, string c)
+        {
+            Name = n;
+            Classification = c;
+        }
 
         public override string ToString()
         {
-            Console.WriteLine($"{Name} - {Classification}:");
-            DisplayGrades();
-            return "";
+            return $"{Name} - {Classification}";
         }
 
         public void DisplayGrades()

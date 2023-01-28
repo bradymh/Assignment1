@@ -22,5 +22,10 @@ namespace Library.LMS.Components
         {
             return $"{Name} - {Description}";
         }
+
+        public void AddContent(ContentItem item)
+        {
+            Content.Add(item);
+        }
     }
 }

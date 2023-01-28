@@ -20,6 +20,12 @@ namespace Library.LMS.Components
         public List<Module> Modules = new List<Module>();
 
         public Course() { }
+        public Course(string c, string n, string d)
+        {
+            Code = c;
+            Name = n;
+            Description = d;
+        }
 
         public void AddStudent(Person student)
         {
@@ -34,6 +40,11 @@ namespace Library.LMS.Components
         public void AddModule(Module module)
         {
             Modules.Add(module);
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}: {Code}";
         }
 
     }
