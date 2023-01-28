@@ -73,12 +73,53 @@ namespace LMS
                         students.Add(new Person(StudentName, Studentdescription));
                     }
                     if (choiceInt == 3) 
-                    { 
-                    
+                    {
+                        Person AddedStudent = new Person();
+                        Console.WriteLine("Enter student name: ");
+                        string PersonName = Console.ReadLine();
+                        foreach(var a in students)
+                        {
+                            if(a.Name == PersonName)
+                            {
+                                AddedStudent= a;
+                                break;
+                            }
+                        }
+
+                        Console.WriteLine("Enter course to add student to: ");
+                        string CourseName = Console.ReadLine();
+                        foreach (var a in courses)
+                        {
+                            if (a.Name == CourseName)
+                            {
+                                a.AddStudent(AddedStudent);
+                                break;
+                            }
+                        }                        
                     }
                     if (choiceInt == 4)
                     {
-
+                        Course CourseofInterest;
+                        Console.WriteLine("Enter course name: ");
+                        string CourseName = Console.ReadLine();
+                        foreach (var a in courses)
+                        {
+                            if (a.Name == CourseName)
+                            {
+                                CourseofInterest = a;
+                                break;
+                            }
+                        }
+                        Console.WriteLine("Enter student name: ");
+                        string StudentName = Console.ReadLine();
+                        foreach (var a in students)
+                        {
+                            if (a.Name == StudentName)
+                            {
+                                students.Remove(a);
+                                break;
+                            }
+                        }
                     }
                     if (choiceInt == 5)
                     {
