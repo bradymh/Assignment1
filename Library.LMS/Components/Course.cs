@@ -44,7 +44,7 @@ namespace Library.LMS.Components
 
         public override string ToString()
         {
-            return $"{Name}: {Code}";
+            return $"{Name} - {Code}";
         }
 
     }

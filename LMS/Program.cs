@@ -130,7 +130,22 @@ namespace LMS
                     }
                     if (choiceInt == 6)
                     {
+                        Course CourseOfInterest = new Course();
+                        Console.WriteLine("Enter Course name or description: ");
+                        string CourseInfo = Console.ReadLine();
 
+                        foreach(var a in courses)
+                        {
+                            if(a.Name == CourseInfo)
+                            {
+                                CourseOfInterest = a;
+                            }
+                            else if(a.Description == CourseInfo)
+                            {
+                                CourseOfInterest = a;
+                            }
+                        }
+                        Console.WriteLine($"{CourseOfInterest}\n{CourseOfInterest.Description}");
                     }
                     if (choiceInt == 7)
                     {
