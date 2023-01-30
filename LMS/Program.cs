@@ -102,24 +102,34 @@ namespace LMS
                         Course CourseofInterest;
                         Console.WriteLine("Enter course name: ");
                         string CourseName = Console.ReadLine();
+                        bool FoundCourse = false;
                         foreach (var a in courses)
                         {
                             if (a.Name == CourseName)
                             {
                                 CourseofInterest = a;
+                                FoundCourse = true;
                                 break;
                             }
                         }
-                        Console.WriteLine("Enter student name: ");
-                        string StudentName = Console.ReadLine();
-                        foreach (var a in students)
+                        if (FoundCourse)
                         {
-                            if (a.Name == StudentName)
+                            Console.WriteLine("Enter student name: ");
+                            string RemovedStudent = Console.ReadLine();
+                            bool FoundStudent = false;
+                            foreach (var a in students)
                             {
-                                students.Remove(a);
-                                break;
+                                if (a.Name == RemovedStudent)
+                                {
+                                    students.Remove(a);
+                                    FoundStudent = true;
+                                    Console.WriteLine("Student removed");
+                                    break;
+                                }
                             }
+                            if (!FoundStudent) Console.WriteLine("Student not found");
                         }
+                        else Console.WriteLine("Course not found");
                     }
                     if (choiceInt == 5)
                     {
@@ -133,19 +143,25 @@ namespace LMS
                         Course CourseOfInterest = new Course();
                         Console.WriteLine("Enter Course name or description: ");
                         string CourseInfo = Console.ReadLine();
-
+                        bool found = false;
                         foreach(var a in courses)
                         {
                             if(a.Name == CourseInfo)
                             {
                                 CourseOfInterest = a;
+                                found = true;
                             }
                             else if(a.Description == CourseInfo)
                             {
                                 CourseOfInterest = a;
+                                found = true;
                             }
                         }
-                        Console.WriteLine($"{CourseOfInterest}\n{CourseOfInterest.Description}");
+                        if (found)
+                        {
+                            Console.WriteLine($"{CourseOfInterest}\n{CourseOfInterest.Description}");
+                        }
+                        else Console.WriteLine("Course not found");
                     }
                     if (choiceInt == 7)
                     {
@@ -156,7 +172,22 @@ namespace LMS
                     }
                     if (choiceInt == 8)
                     {
-
+                        Console.WriteLine("Enter student name: ");
+                        string StudentName = Console.ReadLine();
+                        bool found = false;
+                        foreach (var a in students)
+                        {
+                            if (a.Name == StudentName)
+                            {
+                                Console.WriteLine(a);
+                                found = true;
+                            }
+                            else found = false;
+                        }
+                        if (!found)
+                        {
+                            Console.WriteLine("Student not found");
+                        }
                     }
                     if (choiceInt == 9)
                     {
