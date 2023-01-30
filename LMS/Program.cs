@@ -1,4 +1,4 @@
-﻿using Library.LMS.Components;
+﻿using Library.LMS.Models;
 
 namespace LMS
 {
@@ -52,14 +52,18 @@ namespace LMS
                     if(choiceInt == 1)
                     {
                         Console.WriteLine("Enter course code: ");
-                        string CourseCode = Console.ReadLine();
+                        string CourseCode = Console.ReadLine() ?? string.Empty;
 
                         Console.WriteLine("Enter course name: ");
-                        string CourseName = Console.ReadLine();
+                        string CourseName = Console.ReadLine() ?? string.Empty;
 
                         Console.WriteLine("Enter description: ");
-                        string Coursedescription = Console.ReadLine();
+                        string Coursedescription = Console.ReadLine() ?? string.Empty;
 
+                        if(CourseCode == string.Empty || CourseName == string.Empty || Coursedescription == string.Empty)
+                        {
+                            Console.WriteLine("Invalid entry");
+                        }
                         courses.Add(new Course(CourseCode,CourseName,Coursedescription));
                     }
                     if (choiceInt == 2)

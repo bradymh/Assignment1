@@ -1,20 +1,20 @@
-﻿using Library.LMS.Components;
+﻿using Library.LMS.Models;
 
-namespace Library.LMS.Components
+namespace Library.LMS.Models
 {
     public class Course
     {
-        private string _code;
-        public string Code { get { return _code; } set { _code = value; } }
+        private string? _code;
+        public string Code { get { return _code ?? string.Empty; } set { _code = value; } }
 
-        private string _name;
-        public string Name { get { return _name;} set { _name = value; } }
+        private string? _name;
+        public string Name { get { return _name ?? string.Empty;} set { _name = value; } }
 
-        private string _description;
-        public string Description { get { return _description;} set { _description = value; } }
+        private string? _description;
+        public string Description { get { return _description ?? string.Empty;} set { _description = value; } }
 
         public List<Person> Roster = new List<Person>();
-
+        
         public List<Assignment> Assignments = new List<Assignment>();
 
         public List<Module> Modules = new List<Module>();
