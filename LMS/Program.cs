@@ -163,7 +163,68 @@ namespace LMS
                     {
                         while (true)
                         {
-                            break;
+                            Console.WriteLine("1. Add a student");
+                            Console.WriteLine("2. List all students");
+                            Console.WriteLine("3. Search for a student");
+                            Console.WriteLine("4. List all courses a student is taking");
+                            Console.WriteLine("5. Update a students information");
+                            Console.WriteLine("6. Exit");
+                            Console.WriteLine("Enter an option:");
+
+                            string StudentChoice = Console.ReadLine() ?? string.Empty;
+
+                            if (int.TryParse(StudentChoice, out int StudentInt))
+                            {
+                                if (StudentInt == 1)
+                                {
+                                    Console.WriteLine("Enter student name: ");
+                                    string StudentName = Console.ReadLine();
+
+                                    Console.WriteLine("Enter student classification: ");
+                                    string Studentdescription = Console.ReadLine();
+
+                                    students.Add(new Person(StudentName, Studentdescription));
+                                }
+                                else if (StudentInt == 2)
+                                {
+                                    foreach (var a in students)
+                                    {
+                                        Console.WriteLine(a);
+                                    }
+                                }
+                                else if (StudentInt == 3)
+                                {
+                                    Console.WriteLine("Enter student name: ");
+                                    string StudentName = Console.ReadLine();
+                                    bool found = false;
+                                    foreach (var a in students)
+                                    {
+                                        if (a.Name == StudentName)
+                                        {
+                                            Console.WriteLine(a);
+                                            found = true;
+                                        }
+                                        else found = false;
+                                    }
+                                    if (!found)
+                                    {
+                                        Console.WriteLine("Student not found");
+                                    }
+                                }
+                                else if (StudentInt == 4)
+                                {
+
+                                }
+                                else if (StudentInt == 5)
+                                {
+
+                                }
+                                else if (StudentInt == 6)
+                                {
+                                    break;
+                                }
+                            }
+
                         }
                     }
                     else if (choiceInt == 3) 
