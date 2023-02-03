@@ -29,7 +29,7 @@ namespace LMS
                             Console.WriteLine("2. Add student to course");
                             Console.WriteLine("3. Remove student from course");
                             Console.WriteLine("4. List all courses");
-                            Console.WriteLine("5. Searcch for course");
+                            Console.WriteLine("5. Search for course");
                             Console.WriteLine("6. Update a course");
                             Console.WriteLine("7. Create an assignment");
                             Console.WriteLine("8. Exit");
