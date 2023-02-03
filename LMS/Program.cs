@@ -217,7 +217,36 @@ namespace LMS
                                 }
                                 else if (StudentInt == 5)
                                 {
+                                    Console.WriteLine("Enter student name: ");
+                                    string StudentName = Console.ReadLine();
+                                    Person changedStudent = new Person();
+                                    bool found = false;
+                                    foreach (var a in students)
+                                    {
+                                        if (a.Name == StudentName)
+                                        {
+                                            changedStudent = a;
+                                            found = true;
+                                        }
+                                        else found = false;
+                                    }
+                                    if (!found)
+                                    {
+                                        Console.WriteLine("Student not found");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Enter new name (Leave blank if no change): ");
+                                        string newName = Console.ReadLine() ?? string.Empty;
+                                        if(newName != string.Empty)
+                                            changedStudent.Name = newName;
 
+                                        Console.WriteLine("Enter new classification (Leave blank if no change): ");
+                                        string newClass = Console.ReadLine() ?? string.Empty;
+                                        if(newClass != string.Empty)
+                                            changedStudent.Classification = newClass;
+
+                                    }
                                 }
                                 else if (StudentInt == 6)
                                 {
