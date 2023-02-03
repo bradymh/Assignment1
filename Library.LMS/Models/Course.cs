@@ -13,11 +13,11 @@ namespace Library.LMS.Models
         private string? _description;
         public string Description { get { return _description ?? string.Empty;} set { _description = value; } }
 
-        public List<Person> Roster = new List<Person>();
+        public List<Person> Roster { get; set; } = new List<Person>();
         
-        public List<Assignment> Assignments = new List<Assignment>();
+        public List<Assignment> Assignments { get; set; } = new List<Assignment>();
 
-        public List<Module> Modules = new List<Module>();
+        public List<Module> Modules { get; set; } = new List<Module>();
 
         public Course() { }
         public Course(string c, string n, string d)

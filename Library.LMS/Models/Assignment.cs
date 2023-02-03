@@ -22,6 +22,14 @@ namespace Library.LMS.Models
 
         public Assignment() { }
 
+        public Assignment(string n, string d, string points, string date)
+        {
+            Name = n;
+            Description = d;
+            TotalAvailablePoints = points;
+            DueDate = date;
+        }
+
         public override string ToString()
         {
             return $"{Name} - {Description}\nTotal Points: {TotalAvailablePoints}\nDue: {DueDate}\n";

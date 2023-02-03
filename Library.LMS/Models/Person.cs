@@ -15,7 +15,7 @@ namespace Library.LMS.Models
         public string Classification { get { return _classification ?? string.Empty; } set { _classification = value; } }
 
         //grades
-        public Dictionary<Assignment, string> Grades = new Dictionary<Assignment, string>();
+        public Dictionary<Assignment, string> Grades { get; set; } = new Dictionary<Assignment, string>();
 
         public void AddGrade(Assignment a, string grade)
         {

@@ -14,7 +14,7 @@ namespace Library.LMS.Models
         private string? _description;
         public string Description { get { return _description ?? string.Empty;} set { _description = value; } }
 
-        List<ContentItem> Content = new List<ContentItem>();
+        List<ContentItem> Content { get; set; } = new List<ContentItem>();
 
         public Module() { }
 

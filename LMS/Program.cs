@@ -145,10 +145,66 @@ namespace LMS
                                 }
                                 else if(courseInt == 6)
                                 {
+                                    Console.WriteLine("Enter course name: ");
+                                    string courseName = Console.ReadLine() ?? string.Empty;
+                                    Course changedCourse = new Course();
+                                    bool found = false;
+                                    foreach (var a in courses)
+                                    {
+                                        if (a.Name == courseName)
+                                        {
+                                            changedCourse = a;
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!found)
+                                    {
+                                        Console.WriteLine("Course not found");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Enter new course code (Leave blank if no change): ");
+                                        string newCode = Console.ReadLine() ?? string.Empty;
+                                        if (newCode != string.Empty)
+                                            changedCourse.Code = newCode;
 
+                                        Console.WriteLine("Enter new course name (Leave blank if no change): ");
+                                        string newName = Console.ReadLine() ?? string.Empty;
+                                        if (newName != string.Empty)
+                                            changedCourse.Name = newName;
+
+                                        Console.WriteLine("Enter new description (Leave blank if no change): ");
+                                        string newDescription = Console.ReadLine() ?? string.Empty;
+                                        if (newDescription != string.Empty)
+                                            changedCourse.Description = newDescription;
+                                    }
                                 }
                                 else if(courseInt == 7)
                                 {
+                                    Console.WriteLine("Enter assignment name: ");
+                                    string assignmentName = Console.ReadLine() ?? string.Empty;
+                                    Console.WriteLine("Enter description: ");
+                                    string assingmentDescription = Console.ReadLine() ?? string.Empty;
+                                    Console.WriteLine("Enter total available points: ");
+                                    string assignmentPoints = Console.ReadLine() ?? string.Empty;
+                                    Console.WriteLine("Enter the due date: ");
+                                    string assingmentDue = Console.ReadLine() ?? string.Empty;
+
+                                    Assignment newAssignment = new Assignment(assignmentName,assingmentDescription,assignmentPoints,assingmentDue);
+
+
+                                    Console.WriteLine("Enter course to add to: ");
+                                    string courseName = Console.ReadLine() ?? string.Empty;
+                                    foreach (var a in courses)
+                                    {
+                                        if (a.Name == courseName)
+                                        {
+                                            a.AddAssignment(newAssignment);
+                                            break;
+                                        }
+                                    }
+
 
                                 }
                                 else if(courseInt == 8)
@@ -213,12 +269,34 @@ namespace LMS
                                 }
                                 else if (StudentInt == 4)
                                 {
-
+                                    Console.WriteLine("Enter student name: ");
+                                    string StudentName = Console.ReadLine() ?? string.Empty;
+                                    Person currentStudent = new Person();
+                                    bool found = false;
+                                    foreach (var a in students)
+                                    {
+                                        if (a.Name == StudentName)
+                                        {
+                                            currentStudent = a;
+                                            found = true;
+                                        }
+                                        else found = false;
+                                    }
+                                    foreach(var c in courses)
+                                    {
+                                        foreach(var s in c.Roster)
+                                        {
+                                            if(s == currentStudent)
+                                            {
+                                                Console.WriteLine(c);
+                                            }
+                                        }
+                                    }
                                 }
                                 else if (StudentInt == 5)
                                 {
                                     Console.WriteLine("Enter student name: ");
-                                    string StudentName = Console.ReadLine();
+                                    string StudentName = Console.ReadLine() ?? string.Empty;
                                     Person changedStudent = new Person();
                                     bool found = false;
                                     foreach (var a in students)
