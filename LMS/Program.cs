@@ -234,10 +234,10 @@ namespace LMS
                                 if (StudentInt == 1)
                                 {
                                     Console.WriteLine("Enter student name: ");
-                                    string StudentName = Console.ReadLine();
+                                    string StudentName = Console.ReadLine() ?? string.Empty;
 
                                     Console.WriteLine("Enter student classification: ");
-                                    string Studentdescription = Console.ReadLine();
+                                    string Studentdescription = Console.ReadLine() ?? string.Empty;
 
                                     students.Add(new Person(StudentName, Studentdescription));
                                 }
