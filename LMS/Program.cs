@@ -56,7 +56,7 @@ namespace LMS
                                 {
                                     Person AddedStudent = new Person();
                                     Console.WriteLine("Enter student name: ");
-                                    string PersonName = Console.ReadLine();
+                                    string PersonName = Console.ReadLine() ?? string.Empty;
                                     foreach (var a in students)
                                     {
                                         if (a.Name == PersonName)
@@ -67,7 +67,7 @@ namespace LMS
                                     }
 
                                     Console.WriteLine("Enter course to add student to: ");
-                                    string CourseName = Console.ReadLine();
+                                    string CourseName = Console.ReadLine() ?? string.Empty;
                                     foreach (var a in courses)
                                     {
                                         if (a.Name == CourseName)
@@ -81,7 +81,7 @@ namespace LMS
                                 {
                                     Course CourseofInterest;
                                     Console.WriteLine("Enter course name: ");
-                                    string CourseName = Console.ReadLine();
+                                    string CourseName = Console.ReadLine() ?? string.Empty;
                                     bool FoundCourse = false;
                                     foreach (var a in courses)
                                     {
@@ -95,7 +95,7 @@ namespace LMS
                                     if (FoundCourse)
                                     {
                                         Console.WriteLine("Enter student name: ");
-                                        string RemovedStudent = Console.ReadLine();
+                                        string RemovedStudent = Console.ReadLine() ?? string.Empty;
                                         bool FoundStudent = false;
                                         foreach (var a in students)
                                         {
@@ -122,7 +122,7 @@ namespace LMS
                                 {
                                     Course CourseOfInterest = new Course();
                                     Console.WriteLine("Enter Course name or description: ");
-                                    string CourseInfo = Console.ReadLine();
+                                    string CourseInfo = Console.ReadLine() ?? string.Empty;
                                     bool found = false;
                                     foreach (var a in courses)
                                     {
@@ -234,10 +234,10 @@ namespace LMS
                                 if (StudentInt == 1)
                                 {
                                     Console.WriteLine("Enter student name: ");
-                                    string StudentName = Console.ReadLine();
+                                    string StudentName = Console.ReadLine() ?? string.Empty;
 
                                     Console.WriteLine("Enter student classification: ");
-                                    string Studentdescription = Console.ReadLine();
+                                    string Studentdescription = Console.ReadLine() ?? string.Empty;
 
                                     students.Add(new Person(StudentName, Studentdescription));
                                 }
@@ -251,7 +251,7 @@ namespace LMS
                                 else if (StudentInt == 3)
                                 {
                                     Console.WriteLine("Enter student name: ");
-                                    string StudentName = Console.ReadLine();
+                                    string StudentName = Console.ReadLine() ?? string.Empty;
                                     bool found = false;
                                     foreach (var a in students)
                                     {
@@ -282,16 +282,20 @@ namespace LMS
                                         }
                                         else found = false;
                                     }
-                                    foreach(var c in courses)
+                                    if (found)
                                     {
-                                        foreach(var s in c.Roster)
+                                        foreach (var c in courses)
                                         {
-                                            if(s == currentStudent)
+                                            foreach (var s in c.Roster)
                                             {
-                                                Console.WriteLine(c);
+                                                if (s == currentStudent)
+                                                {
+                                                    Console.WriteLine(c);
+                                                }
                                             }
                                         }
                                     }
+                                    else { Console.WriteLine("Student not found"); }
                                 }
                                 else if (StudentInt == 5)
                                 {
