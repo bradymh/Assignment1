@@ -1,4 +1,5 @@
 ﻿using Library.LMS.Models;
+using Library.LMS.Services;
 
 namespace LMS
 {
@@ -6,7 +7,9 @@ namespace LMS
     {
         static void Main(string[] args)
         {
-            List<Course> courses = new List<Course>();
+            //List<Course> courses = new List<Course>();
+            CourseService courseService = new CourseService();
+            
             List<Person> students = new List<Person>();
 
             while (true)
@@ -50,7 +53,7 @@ namespace LMS
                                     Console.WriteLine("Enter description: ");
                                     string Coursedescription = Console.ReadLine() ?? string.Empty;
 
-                                    courses.Add(new Course(CourseCode, CourseName, Coursedescription));
+                                    courseService.AddCourse(new Course(CourseCode, CourseName, Coursedescription));
                                 }
                                 else if(courseInt == 2)
                                 {
