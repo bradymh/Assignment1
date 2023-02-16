@@ -20,8 +20,7 @@ namespace Library.LMS.Services
 
         public void AddStudent(Person student, Course course)
         {
-            Course course1 = course;
-            course1.AddStudent(student);
+            course.AddStudent(student);
         }
         //using course name
         public Course findCourse(string courseName)
@@ -41,8 +40,17 @@ namespace Library.LMS.Services
         
         public void removeStudent(Person student,Course course)
         {
-            
+            int index = 0;
+            for (int i = 0; i < course.Roster.Count;i++)
+            {
+                if(course.Roster.ElementAt(i) == student)
+                {
+                    index = i;
+                }
+            }
+            course.Roster.RemoveAt(index);
         }
+
         public List<Course> getCourseList()
         {
             return courses;
