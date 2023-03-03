@@ -101,19 +101,22 @@ namespace LMS
                                     else Console.WriteLine("Course not found");
                                 }
                                 else if(courseInt == 4)
-                                {
-                                    List<Course> courses = new List<Course>();
-                                    courses = courseService.getCourseList();
-                                    foreach( var a in courses)
+                                {                                   
+                                    List<Course> courses = courseService.getCourseList();
+                                    foreach ( var a in courses)
                                     {
                                         Console.WriteLine(a);
                                     }
                                 }
                                 else if(courseInt == 5)
                                 {
-                                    //Course CourseOfInterest = new Course();
-                                    //Console.WriteLine("Enter Course name or description: ");
-                                    //string CourseInfo = Console.ReadLine();
+                                    Course CourseOfInterest = new Course();
+                                    Console.WriteLine("Enter Course name or description: ");
+                                    string CourseInfo = Console.ReadLine() ?? string.Empty;
+
+                                    CourseOfInterest = courseService.findCourse(CourseInfo);
+                                    Console.WriteLine($"{CourseOfInterest}\n {CourseOfInterest.Description}");
+                                    
                                     //bool found = false;
                                     //foreach (var a in courses)
                                     //{
@@ -136,66 +139,46 @@ namespace LMS
                                 }
                                 else if(courseInt == 6)
                                 {
-                                    //Console.WriteLine("Enter course name: ");
-                                    //string courseName = Console.ReadLine() ?? string.Empty;
-                                    //Course changedCourse = new Course();
-                                    //bool found = false;
-                                    //foreach (var a in courses)
-                                    //{
-                                    //    if (a.Name == courseName)
-                                    //    {
-                                    //        changedCourse = a;
-                                    //        found = true;
-                                    //        break;
-                                    //    }
-                                    //}
-                                    //if (!found)
-                                    //{
-                                    //    Console.WriteLine("Course not found");
-                                    //}
-                                    //else
-                                    //{
-                                    //    Console.WriteLine("Enter new course code (Leave blank if no change): ");
-                                    //    string newCode = Console.ReadLine() ?? string.Empty;
-                                    //    if (newCode != string.Empty)
-                                    //        changedCourse.Code = newCode;
+                                    Course ChangedCourse = new Course();
+                                    Console.WriteLine("Enter Course name or description: ");
+                                    string CourseInfo = Console.ReadLine() ?? string.Empty;
 
-                                    //    Console.WriteLine("Enter new course name (Leave blank if no change): ");
-                                    //    string newName = Console.ReadLine() ?? string.Empty;
-                                    //    if (newName != string.Empty)
-                                    //        changedCourse.Name = newName;
+                                    ChangedCourse = courseService.findCourse(CourseInfo);
 
-                                    //    Console.WriteLine("Enter new description (Leave blank if no change): ");
-                                    //    string newDescription = Console.ReadLine() ?? string.Empty;
-                                    //    if (newDescription != string.Empty)
-                                    //        changedCourse.Description = newDescription;
-                                    //}
+                                    Console.WriteLine("Enter new course code (Leave blank if no change): ");
+                                    string newCode = Console.ReadLine() ?? string.Empty;
+                                    if (newCode != string.Empty)
+                                        ChangedCourse.Code = newCode;
+
+                                    Console.WriteLine("Enter new course name (Leave blank if no change): ");
+                                    string newName = Console.ReadLine() ?? string.Empty;
+                                    if (newName != string.Empty)
+                                        ChangedCourse.Name = newName;
+
+                                    Console.WriteLine("Enter new description (Leave blank if no change): ");
+                                    string newDescription = Console.ReadLine() ?? string.Empty;
+                                    if (newDescription != string.Empty)
+                                        ChangedCourse.Description = newDescription;
                                 }
                                 else if(courseInt == 7)
                                 {
-                                    //Console.WriteLine("Enter assignment name: ");
-                                    //string assignmentName = Console.ReadLine() ?? string.Empty;
-                                    //Console.WriteLine("Enter description: ");
-                                    //string assingmentDescription = Console.ReadLine() ?? string.Empty;
-                                    //Console.WriteLine("Enter total available points: ");
-                                    //string assignmentPoints = Console.ReadLine() ?? string.Empty;
-                                    //Console.WriteLine("Enter the due date: ");
-                                    //string assingmentDue = Console.ReadLine() ?? string.Empty;
+                                    Console.WriteLine("Enter assignment name: ");
+                                    string assignmentName = Console.ReadLine() ?? string.Empty;
+                                    Console.WriteLine("Enter description: ");
+                                    string assingmentDescription = Console.ReadLine() ?? string.Empty;
+                                    Console.WriteLine("Enter total available points: ");
+                                    string assignmentPoints = Console.ReadLine() ?? string.Empty;
+                                    Console.WriteLine("Enter the due date: ");
+                                    string assingmentDue = Console.ReadLine() ?? string.Empty;
 
-                                    //Assignment newAssignment = new Assignment(assignmentName,assingmentDescription,assignmentPoints,assingmentDue);
+                                    Assignment newAssignment = new Assignment(assignmentName, assingmentDescription, assignmentPoints, assingmentDue);
 
 
-                                    //Console.WriteLine("Enter course to add to: ");
-                                    //string courseName = Console.ReadLine() ?? string.Empty;
-                                    //foreach (var a in courses)
-                                    //{
-                                    //    if (a.Name == courseName)
-                                    //    {
-                                    //        a.AddAssignment(newAssignment);
-                                    //        break;
-                                    //    }
-                                    //}
+                                    Console.WriteLine("Enter course to add to: ");
+                                    string courseName = Console.ReadLine() ?? string.Empty;
+                                    Course CourseOfInterest = courseService.findCourse(courseName);
 
+                                    courseService.addAssignment(CourseOfInterest,newAssignment);
 
                                 }
                                 else if(courseInt == 8)

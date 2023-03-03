@@ -56,5 +56,9 @@ namespace Library.LMS.Services
             return courses;
         }
 
+        public void addAssignment(Course course,Assignment assignment)
+        {
+            course.AddAssignment(assignment);
+        }
     }
 }
