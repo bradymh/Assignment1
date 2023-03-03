@@ -117,25 +117,6 @@ namespace LMS
                                     CourseOfInterest = courseService.findCourse(CourseInfo);
                                     Console.WriteLine($"{CourseOfInterest}\n {CourseOfInterest.Description}");
                                     
-                                    //bool found = false;
-                                    //foreach (var a in courses)
-                                    //{
-                                    //    if (a.Name == CourseInfo)
-                                    //    {
-                                    //        CourseOfInterest = a;
-                                    //        found = true;
-                                    //    }
-                                    //    else if (a.Description == CourseInfo)
-                                    //    {
-                                    //        CourseOfInterest = a;
-                                    //        found = true;
-                                    //    }
-                                    //}
-                                    //if (found)
-                                    //{
-                                    //    Console.WriteLine($"{CourseOfInterest}\n{CourseOfInterest.Description}");
-                                    //}
-                                    //else Console.WriteLine("Course not found");
                                 }
                                 else if(courseInt == 6)
                                 {
