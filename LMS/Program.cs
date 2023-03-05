@@ -72,7 +72,7 @@ namespace LMS
 
                                     Console.WriteLine("Enter course to add student to: ");
                                     
-                                    string CourseName = Console.ReadLine();
+                                    string CourseName = Console.ReadLine() ?? string.Empty;
                                     Course importantCourse= new Course();
                                     importantCourse = courseService.findCourse(CourseName);
                                     courseService.AddStudent(AddedStudent, importantCourse);
@@ -83,7 +83,7 @@ namespace LMS
                                     Course CourseofInterest;
                                     Console.WriteLine("Enter course name: ");
 
-                                    string CourseName = Console.ReadLine();
+                                    string CourseName = Console.ReadLine() ?? string.Empty;
                                     CourseofInterest = courseService.findCourse(CourseName);
                                     if (CourseofInterest != null)
                                     {
