@@ -1,5 +1,6 @@
-﻿
 using Library.LMS.Models;
+using Library.LMS.Services;
+
 
 namespace LMS
 {
@@ -7,7 +8,9 @@ namespace LMS
     {
         static void Main(string[] args)
         {
-            List<Course> courses = new List<Course>();
+            //List<Course> courses = new List<Course>();
+            CourseService courseService = new CourseService();
+            
             List<Person> students = new List<Person>();
 
             while (true)
@@ -51,7 +54,7 @@ namespace LMS
                                     Console.WriteLine("Enter description: ");
                                     string Coursedescription = Console.ReadLine() ?? string.Empty;
 
-                                    courses.Add(new Course(CourseCode, CourseName, Coursedescription));
+                                    courseService.AddCourse(new Course(CourseCode, CourseName, Coursedescription));
                                 }
                                 else if(courseInt == 2)
                                 {
@@ -68,32 +71,21 @@ namespace LMS
                                     }
 
                                     Console.WriteLine("Enter course to add student to: ");
-                                    string CourseName = Console.ReadLine() ?? string.Empty;
-                                    foreach (var a in courses)
-                                    {
-                                        if (a.Name == CourseName)
-                                        {
-                                            a.AddStudent(AddedStudent);
-                                            break;
-                                        }
-                                    }
+                                    
+                                    string CourseName = Console.ReadLine();
+                                    Course importantCourse= new Course();
+                                    importantCourse = courseService.findCourse(CourseName);
+                                    courseService.AddStudent(AddedStudent, importantCourse);
+
                                 }
                                 else if(courseInt == 3)
                                 {
                                     Course CourseofInterest;
                                     Console.WriteLine("Enter course name: ");
-                                    string CourseName = Console.ReadLine() ?? string.Empty;
-                                    bool FoundCourse = false;
-                                    foreach (var a in courses)
-                                    {
-                                        if (a.Name == CourseName)
-                                        {
-                                            CourseofInterest = a;
-                                            FoundCourse = true;
-                                            break;
-                                        }
-                                    }
-                                    if (FoundCourse)
+
+                                    string CourseName = Console.ReadLine();
+                                    CourseofInterest = courseService.findCourse(CourseName);
+                                    if (CourseofInterest != null)
                                     {
                                         Console.WriteLine("Enter student name: ");
                                         string RemovedStudent = Console.ReadLine() ?? string.Empty;
@@ -102,7 +94,7 @@ namespace LMS
                                         {
                                             if (a.Name == RemovedStudent)
                                             {
-                                                students.Remove(a);
+                                                courseService.removeStudent(a,CourseofInterest);
                                                 FoundStudent = true;
                                                 Console.WriteLine("Student removed");
                                                 break;
@@ -113,8 +105,9 @@ namespace LMS
                                     else Console.WriteLine("Course not found");
                                 }
                                 else if(courseInt == 4)
-                                {
-                                    foreach (var a in courses)
+                                {                                   
+                                    List<Course> courses = courseService.getCourseList();
+                                    foreach ( var a in courses)
                                     {
                                         Console.WriteLine(a);
                                     }
@@ -124,62 +117,34 @@ namespace LMS
                                     Course CourseOfInterest = new Course();
                                     Console.WriteLine("Enter Course name or description: ");
                                     string CourseInfo = Console.ReadLine() ?? string.Empty;
-                                    bool found = false;
-                                    foreach (var a in courses)
-                                    {
-                                        if (a.Name == CourseInfo)
-                                        {
-                                            CourseOfInterest = a;
-                                            found = true;
-                                        }
-                                        else if (a.Description == CourseInfo)
-                                        {
-                                            CourseOfInterest = a;
-                                            found = true;
-                                        }
-                                    }
-                                    if (found)
-                                    {
-                                        Console.WriteLine($"{CourseOfInterest}\n{CourseOfInterest.Description}");
-                                    }
-                                    else Console.WriteLine("Course not found");
+
+
+                                    CourseOfInterest = courseService.findCourse(CourseInfo);
+                                    Console.WriteLine($"{CourseOfInterest}\n {CourseOfInterest.Description}");
+
                                 }
                                 else if(courseInt == 6)
                                 {
-                                    Console.WriteLine("Enter course name: ");
-                                    string courseName = Console.ReadLine() ?? string.Empty;
-                                    Course changedCourse = new Course();
-                                    bool found = false;
-                                    foreach (var a in courses)
-                                    {
-                                        if (a.Name == courseName)
-                                        {
-                                            changedCourse = a;
-                                            found = true;
-                                            break;
-                                        }
-                                    }
-                                    if (!found)
-                                    {
-                                        Console.WriteLine("Course not found");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Enter new course code (Leave blank if no change): ");
-                                        string newCode = Console.ReadLine() ?? string.Empty;
-                                        if (newCode != string.Empty)
-                                            changedCourse.Code = newCode;
+                                    Course ChangedCourse = new Course();
+                                    Console.WriteLine("Enter Course name or description: ");
+                                    string CourseInfo = Console.ReadLine() ?? string.Empty;
 
-                                        Console.WriteLine("Enter new course name (Leave blank if no change): ");
-                                        string newName = Console.ReadLine() ?? string.Empty;
-                                        if (newName != string.Empty)
-                                            changedCourse.Name = newName;
+                                    ChangedCourse = courseService.findCourse(CourseInfo);
 
-                                        Console.WriteLine("Enter new description (Leave blank if no change): ");
-                                        string newDescription = Console.ReadLine() ?? string.Empty;
-                                        if (newDescription != string.Empty)
-                                            changedCourse.Description = newDescription;
-                                    }
+                                    Console.WriteLine("Enter new course code (Leave blank if no change): ");
+                                    string newCode = Console.ReadLine() ?? string.Empty;
+                                    if (newCode != string.Empty)
+                                        ChangedCourse.Code = newCode;
+
+                                    Console.WriteLine("Enter new course name (Leave blank if no change): ");
+                                    string newName = Console.ReadLine() ?? string.Empty;
+                                    if (newName != string.Empty)
+                                        ChangedCourse.Name = newName;
+
+                                    Console.WriteLine("Enter new description (Leave blank if no change): ");
+                                    string newDescription = Console.ReadLine() ?? string.Empty;
+                                    if (newDescription != string.Empty)
+                                        ChangedCourse.Description = newDescription;
                                 }
                                 else if(courseInt == 7)
                                 {
@@ -192,20 +157,14 @@ namespace LMS
                                     Console.WriteLine("Enter the due date: ");
                                     string assingmentDue = Console.ReadLine() ?? string.Empty;
 
-                                    Assignment newAssignment = new Assignment(assignmentName,assingmentDescription,assignmentPoints,assingmentDue);
+                                    Assignment newAssignment = new Assignment(assignmentName, assingmentDescription, assignmentPoints, assingmentDue);
 
 
                                     Console.WriteLine("Enter course to add to: ");
                                     string courseName = Console.ReadLine() ?? string.Empty;
-                                    foreach (var a in courses)
-                                    {
-                                        if (a.Name == courseName)
-                                        {
-                                            a.AddAssignment(newAssignment);
-                                            break;
-                                        }
-                                    }
+                                    Course CourseOfInterest = courseService.findCourse(courseName);
 
+                                    courseService.addAssignment(CourseOfInterest,newAssignment);
 
                                 }
                                 else if(courseInt == 8)
@@ -297,6 +256,7 @@ namespace LMS
                                         }
                                     }
                                     else { Console.WriteLine("Student not found"); }
+
                                 }
                                 else if (StudentInt == 5)
                                 {
