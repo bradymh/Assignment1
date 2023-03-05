@@ -244,11 +244,12 @@ namespace LMS
                                     }
                                     if (found)
                                     {
+                                        List<Course> courses = courseService.getCourseList();
                                         foreach (var c in courses)
                                         {
                                             foreach (var s in c.Roster)
                                             {
-                                                if (s == currentStudent)
+                                                if(s == currentStudent)
                                                 {
                                                     Console.WriteLine(c);
                                                 }
