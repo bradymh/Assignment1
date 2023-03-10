@@ -14,18 +14,18 @@ namespace Library.LMS.Models
         private string? _classification;
         public string Classification { get { return _classification ?? string.Empty; } set { _classification = value; } }
 
-        //grades
         public Dictionary<Assignment, string> Grades { get; set; } = new Dictionary<Assignment, string>();
 
-        public void AddGrade(Assignment a, string grade)
+        public bool AddGrade(Assignment a, string grade)
         {
             try
             {
                 Grades.Add(a, grade);
+                return true;
             }
-            catch 
+            catch (ArgumentException)
             {
-                Console.WriteLine("Assignment already exists");
+                return false;
             }
         }
 
@@ -39,15 +39,6 @@ namespace Library.LMS.Models
         public override string ToString()
         {
             return $"{Name} - {Classification}";
-        }
-
-        public void DisplayGrades()
-        {
-            foreach(var a in Grades)
-            {
-                Console.Write(a.Key);
-                Console.WriteLine($"Grade: {a.Value}");
-            }
         }
 
     }

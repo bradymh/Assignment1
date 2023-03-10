@@ -14,9 +14,6 @@ namespace Library.LMS.Models
         private string? _description;
         public string Description { get { return _description ?? string.Empty; } set { _description = value; } }
 
-        private string? _path;
-        public string Path { get { return _path ?? string.Empty; } set { _path = value; } }
-
         public ContentItem() { }
 
         public override string ToString()

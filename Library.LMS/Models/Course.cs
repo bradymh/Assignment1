@@ -13,6 +13,9 @@ namespace Library.LMS.Models
         private string? _description;
         public string Description { get { return _description ?? string.Empty;} set { _description = value; } }
 
+        private int? _credithours;
+        public int CreditHours { get { return _credithours ?? 1; } set { _credithours = value; } }
+
         public List<Person> Roster { get; set; } = new List<Person>();
         
         public List<Assignment> Assignments { get; set; } = new List<Assignment>();

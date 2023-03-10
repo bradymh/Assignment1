@@ -1,6 +1,7 @@
 using Library.LMS.Models;
 using Library.LMS.Services;
-
+using Assignment2_Solution;
+using System.Linq.Expressions;
 
 namespace LMS
 {
@@ -105,11 +106,87 @@ namespace LMS
                                     else Console.WriteLine("Course not found");
                                 }
                                 else if(courseInt == 4)
-                                {                                   
-                                    List<Course> courses = courseService.getCourseList();
-                                    foreach ( var a in courses)
+                                {      
+                                    ListNavigator<Course> list = new ListNavigator<Course>(courseService.getCourseList());
+                                    var window = list.GetCurrentPage();
+                                    foreach(var a in window)
                                     {
-                                        Console.WriteLine(a);
+                                        Console.WriteLine(a.Value);
+                                    }
+                                    while (true)
+                                    {
+                                        Console.WriteLine("1. Start");
+                                        Console.WriteLine("2. Previous Page");
+                                        Console.WriteLine("3. Next Page");
+                                        Console.WriteLine("4. Last Page");
+                                        Console.WriteLine("5. Exit");
+                                        Console.WriteLine("Enter an option: ");
+
+                                        string ListChoice = Console.ReadLine() ?? string.Empty;
+
+                                        if (int.TryParse(ListChoice, out int navigation))
+                                        {
+                                            if(navigation == 1)
+                                            {
+                                                window = list.GoToFirstPage();
+                                                foreach (var a in window)
+                                                {
+                                                    Console.WriteLine(a.Value);
+                                                }
+                                            }
+                                            else if(navigation == 2)
+                                            {
+                                                try
+                                                {
+                                                    window = list.GoBackward();
+                                                    foreach (var a in window)
+                                                    {
+                                                        Console.WriteLine(a.Value);
+                                                    }
+                                                }
+                                                catch(PageFaultException e)
+                                                {
+                                                    Console.WriteLine(e.Message);
+                                                    window = list.GetCurrentPage();
+                                                    foreach (var a in window)
+                                                    {
+                                                        Console.WriteLine(a.Value);
+                                                    }
+                                                }
+                                            }
+                                            else if(navigation == 3)
+                                            {
+                                                try
+                                                {
+                                                    window = list.GoForward();
+                                                    foreach (var a in window)
+                                                    {
+                                                        Console.WriteLine(a.Value);
+                                                    }
+                                                }
+                                                catch(PageFaultException e)
+                                                {
+                                                    Console.WriteLine(e.Message);
+                                                    window = list.GetCurrentPage();
+                                                    foreach (var a in window)
+                                                    {
+                                                        Console.WriteLine(a.Value);
+                                                    }
+                                                }
+                                            }
+                                            else if(navigation == 4)
+                                            {
+                                                window = list.GoToLastPage();
+                                                foreach (var a in window)
+                                                {
+                                                    Console.WriteLine(a.Value);
+                                                }
+                                            }
+                                            else if(navigation == 5)
+                                            {
+                                                break;
+                                            }
+                                        }
                                     }
                                 }
                                 else if(courseInt == 5)

@@ -20,6 +20,9 @@ namespace Library.LMS.Models
         private string? _duedate;
         public string DueDate { get { return _duedate ?? string.Empty; } set { _duedate = value; } }
 
+        private string? _assignmentgroup;
+        public string AssignmentGroup { get { return _assignmentgroup ?? string.Empty; } set { _assignmentgroup = value; } }
+
         public Assignment() { }
 
         public Assignment(string n, string d, string points, string date)
