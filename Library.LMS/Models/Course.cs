@@ -4,8 +4,16 @@ namespace Library.LMS.Models
 {
     public class Course
     {
+        private static int currentid = 1;
+
+        private string? _courseprefix;
+        public string CoursePrefix { private get { return _courseprefix ?? string.Empty; } set { _courseprefix = value; CourseCode(); } }
+
+        private string? _courseid;
+        private string CourseId { get { return _courseid ?? string.Empty; } set { _courseid = value; } }
+
         private string? _code;
-        public string Code { get { return _code ?? string.Empty; } set { _code = value; } }
+        public string Code { get { return _code ?? string.Empty; } private set { _code = value; } }
 
         private string? _name;
         public string Name { get { return _name ?? string.Empty;} set { _name = value; } }
@@ -23,9 +31,23 @@ namespace Library.LMS.Models
         public List<Module> Modules { get; set; } = new List<Module>();
 
         public Course() { }
+
+        public Course(Course previousCourse)
+        {
+            Code = previousCourse.Code;
+            Name = previousCourse.Name;
+            Description = previousCourse.Description;
+            CreditHours = previousCourse.CreditHours;
+            Roster = previousCourse.Roster;
+            Assignments = previousCourse.Assignments;
+            Modules = previousCourse.Modules;
+        }
+
         public Course(string c, string n, string d)
         {
-            Code = c;
+            CourseId = NewId();
+            CoursePrefix = c;
+            CourseCode();
             Name = n;
             Description = d;
         }
@@ -50,5 +72,14 @@ namespace Library.LMS.Models
             return $"{Name} - {Code}";
         }
 
+        private string NewId()
+        {
+            return $"{currentid++}";
+        }
+
+        private void CourseCode()
+        {
+            Code = CoursePrefix + CourseId;
+        }
     }
 }

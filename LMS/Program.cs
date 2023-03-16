@@ -47,8 +47,8 @@ namespace LMS
                             {
                                 if(courseInt == 1)
                                 {
-                                    Console.WriteLine("Enter course code: ");
-                                    string CourseCode = Console.ReadLine() ?? string.Empty;
+                                    Console.WriteLine("Enter course prefix: ");
+                                    string CoursePrefix = Console.ReadLine() ?? string.Empty;
 
                                     Console.WriteLine("Enter course name: ");
                                     string CourseName = Console.ReadLine() ?? string.Empty;
@@ -56,7 +56,7 @@ namespace LMS
                                     Console.WriteLine("Enter description: ");
                                     string Coursedescription = Console.ReadLine() ?? string.Empty;
 
-                                    courseService.AddCourse(new Course(CourseCode, CourseName, Coursedescription));
+                                    courseService.AddCourse(new Course(CoursePrefix, CourseName, Coursedescription));
                                 }
                                 else if(courseInt == 2)
                                 {
@@ -209,10 +209,10 @@ namespace LMS
 
                                     ChangedCourse = courseService.findCourse(CourseInfo);
 
-                                    Console.WriteLine("Enter new course code (Leave blank if no change): ");
+                                    Console.WriteLine("Enter new course prefix (Leave blank if no change): ");
                                     string newCode = Console.ReadLine() ?? string.Empty;
                                     if (newCode != string.Empty)
-                                        ChangedCourse.Code = newCode;
+                                        ChangedCourse.CoursePrefix = newCode;
 
                                     Console.WriteLine("Enter new course name (Leave blank if no change): ");
                                     string newName = Console.ReadLine() ?? string.Empty;
@@ -242,7 +242,7 @@ namespace LMS
                                     string courseName = Console.ReadLine() ?? string.Empty;
                                     Course CourseOfInterest = courseService.findCourse(courseName);
 
-                                    courseService.addAssignment(CourseOfInterest,newAssignment);
+                                    courseService.AddAssignment(CourseOfInterest,newAssignment);
 
                                 }
                                 else if(courseInt == 8)
@@ -328,7 +328,69 @@ namespace LMS
                                             }
                                             else if (ModuleInt == 5)
                                             {
+                                                int count = 1;
+                                                foreach (var m in CourseOfInterest.Modules)
+                                                {
+                                                    Console.WriteLine($"{count}. {m}");
+                                                    count++;
+                                                }
+                                                Console.WriteLine("Module to add content to: ");
+                                                string modulecontent = Console.ReadLine() ?? string.Empty;
 
+                                                if (int.TryParse(modulecontent, out int moduleindex))
+                                                {
+                                                    Module ModuleOfInterest = CourseOfInterest.Modules.ElementAt(moduleindex-1);
+
+                                                    Console.WriteLine("Content name: ");
+                                                    string ContentName = Console.ReadLine() ?? string.Empty;
+
+                                                    Console.WriteLine("Content description: ");
+                                                    string ContentDescription = Console.ReadLine() ?? string.Empty;
+
+                                                    Console.WriteLine("1. File");
+                                                    Console.WriteLine("2. Page");
+                                                    Console.WriteLine("3. Assignment");
+
+                                                    string contentchoice = Console.ReadLine() ?? string.Empty;
+
+                                                    if(int.TryParse(contentchoice, out int choiceindex))
+                                                    {
+                                                        if (choiceindex == 1)
+                                                        {
+                                                            Console.WriteLine("File path: ");
+                                                            string FilePath = Console.ReadLine() ?? string.Empty;
+
+                                                            FileItem NewFile = new FileItem(ContentName,ContentDescription,FilePath);
+                                                            ModuleOfInterest.AddContent(NewFile);
+                                                        }
+                                                        else if(choiceindex == 2)
+                                                        {
+                                                            Console.WriteLine("HTML body: ");
+                                                            string HTMLBody = Console.ReadLine() ?? string.Empty;
+
+                                                            PageItem NewPage = new PageItem(ContentName,ContentDescription,HTMLBody);
+                                                            ModuleOfInterest.AddContent(NewPage);
+                                                        }
+                                                        else if(choiceindex == 3)
+                                                        {
+                                                            int AssignmentCount = 1;
+                                                            foreach(var a in CourseOfInterest.Assignments)
+                                                            {
+                                                                Console.WriteLine($"{AssignmentCount}. {a}");
+                                                                AssignmentCount++;
+                                                            }
+                                                            Console.WriteLine("Which assignment?");
+                                                            string AssignmentNumber = Console.ReadLine() ?? string.Empty;
+
+                                                            if (int.TryParse(AssignmentNumber, out int AssignmentIndex))
+                                                            {
+                                                                Assignment assignment = CourseOfInterest.Assignments.ElementAt(AssignmentIndex-1);
+                                                                AssignmentItem NewAssignment = new AssignmentItem(ContentName, ContentDescription, assignment);
+                                                                ModuleOfInterest.AddContent(NewAssignment);
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             }
                                             else if (ModuleInt == 6)
                                             {

@@ -34,7 +34,7 @@ namespace Library.LMS.Services
 
             foreach(var a in courses)
             {
-                if(a.Name == courseName)
+                if(a.Name == courseName || a.Description == courseName)
                 {
                     course = a;
                     break;
@@ -61,7 +61,7 @@ namespace Library.LMS.Services
             return courses;
         }
 
-        public void addAssignment(Course course,Assignment assignment)
+        public void AddAssignment(Course course,Assignment assignment)
         {
             course.AddAssignment(assignment);
         }

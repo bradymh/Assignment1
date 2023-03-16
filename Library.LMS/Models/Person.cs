@@ -8,6 +8,10 @@ namespace Library.LMS.Models
 {
     public class Person
     {
+        private static int currentid=1;
+        private int id;
+        public int Id { get { return id; } private set { id = value; } }
+
         private string? _name;
         public string Name { get { return _name ?? string.Empty; } set { _name = value; } }
 
@@ -29,17 +33,25 @@ namespace Library.LMS.Models
             }
         }
 
-        public Person() { }
+        public Person() 
+        {
+            Id = NewId();
+        }
         public Person(string n, string c)
         {
             Name = n;
             Classification = c;
+            Id = NewId();
         }
 
         public override string ToString()
         {
-            return $"{Name} - {Classification}";
+            return $"{Name} - {Id}";
         }
 
+        private int NewId()
+        {
+            return currentid++;
+        }
     }
 }
