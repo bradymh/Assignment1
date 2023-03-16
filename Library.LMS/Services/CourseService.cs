@@ -23,7 +23,10 @@ namespace Library.LMS.Services
             course.AddStudent(student);
         }
 
-
+        public void AddModule(Module module, Course course)
+        {
+            course.AddModule(module);
+        }
         //using course name
         public Course findCourse(string courseName)
         {

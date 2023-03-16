@@ -37,7 +37,8 @@ namespace LMS
                             Console.WriteLine("5. Search for course");
                             Console.WriteLine("6. Update a course");
                             Console.WriteLine("7. Create an assignment");
-                            Console.WriteLine("8. Exit");
+                            Console.WriteLine("8. Change a courses modules");
+                            Console.WriteLine("9. Exit");
                             Console.WriteLine("Enter an option: ");
 
                             string CourseChoice = Console.ReadLine() ?? string.Empty;
@@ -245,6 +246,96 @@ namespace LMS
 
                                 }
                                 else if(courseInt == 8)
+                                {
+                                    Console.WriteLine("Enter course name: ");
+                                    string courseName = Console.ReadLine() ?? string.Empty;
+                                    Course CourseOfInterest = courseService.findCourse(courseName);
+                                    while (true)
+                                    {
+                                        Console.WriteLine("1. Create module");
+                                        Console.WriteLine("2. View modules");
+                                        Console.WriteLine("3. Update modules");
+                                        Console.WriteLine("4. Delete modules");
+                                        Console.WriteLine("5. Add content to modules");
+                                        Console.WriteLine("6. Exit");
+
+                                        string Modulechoice = Console.ReadLine() ?? string.Empty;
+
+
+                                        if (int.TryParse(Modulechoice, out int ModuleInt))
+                                        {
+                                            if (ModuleInt == 1)
+                                            {
+                                                Console.WriteLine("Enter name: ");
+                                                string modulename = Console.ReadLine() ?? string.Empty;
+
+                                                Console.WriteLine("Enter description: ");
+                                                string moduledescription = Console.ReadLine() ?? string.Empty;
+
+                                                courseService.AddModule(new Module(modulename, moduledescription), CourseOfInterest);
+                                            }
+                                            else if (ModuleInt == 2)
+                                            {
+                                                foreach (var m in CourseOfInterest.Modules)
+                                                {
+                                                    Console.WriteLine(m);
+                                                }
+                                            }
+                                            else if (ModuleInt == 3)
+                                            {
+                                                int count = 1;
+                                                foreach (var m in CourseOfInterest.Modules)
+                                                {
+                                                    Console.WriteLine($"{count}. {m}");
+                                                    count++;
+                                                }
+                                                Console.WriteLine("Module to change: ");
+                                                string changeModule = Console.ReadLine() ?? string.Empty;
+
+                                                if (int.TryParse(changeModule, out int moduleindex))
+                                                {
+                                                    Module ChangingModule = CourseOfInterest.Modules.ElementAt(moduleindex - 1);
+
+                                                    Console.WriteLine("Enter new name (Leave blank if no change): ");
+                                                    string newName = Console.ReadLine() ?? string.Empty;
+                                                    if (newName != string.Empty)
+                                                        ChangingModule.Name = newName;
+
+                                                    Console.WriteLine("Enter new description (Leave blank if no change): ");
+                                                    string newDescription = Console.ReadLine() ?? string.Empty;
+                                                    if (newDescription != string.Empty)
+                                                        ChangingModule.Description = newDescription;
+                                                }
+
+                                            }
+                                            else if (ModuleInt == 4)
+                                            {
+                                                int count = 1;
+                                                foreach (var m in CourseOfInterest.Modules)
+                                                {
+                                                    Console.WriteLine($"{count}. {m}");
+                                                    count++;
+                                                }
+                                                Console.WriteLine("Module to delete: ");
+                                                string changeModule = Console.ReadLine() ?? string.Empty;
+
+                                                if (int.TryParse(changeModule, out int moduleindex))
+                                                {
+                                                    CourseOfInterest.Modules.RemoveAt(moduleindex - 1);
+                                                }
+                                            }
+                                            else if (ModuleInt == 5)
+                                            {
+
+                                            }
+                                            else if (ModuleInt == 6)
+                                            {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                else if(courseInt == 9)
                                 {
                                     break;
                                 }

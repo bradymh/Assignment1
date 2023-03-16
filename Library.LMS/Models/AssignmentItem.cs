@@ -12,5 +12,13 @@ namespace Library.LMS.Models
         public Assignment AssignmentPath { get { return _assignmentpath; } set { _assignmentpath = value; } } 
 
         public AssignmentItem() { }
+        public AssignmentItem(string name,string description, Assignment assignment) : base(name, description)
+        {
+            AssignmentPath = assignment;
+        }
+        public override string ToString()
+        {
+            return base.ToString() + "\n" + AssignmentPath.ToString();
+        }
     }
 }

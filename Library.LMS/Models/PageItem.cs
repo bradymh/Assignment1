@@ -12,5 +12,14 @@ namespace Library.LMS.Models
         public string HTMLBody { get { return _htmlbody ?? string.Empty; } set { _htmlbody = value; } }
 
         public PageItem() { }
+        public PageItem(string name, string description, string htmlbody) : base(name, description) 
+        {
+            HTMLBody = htmlbody;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + $" - {HTMLBody}";
+        }
     }
 }

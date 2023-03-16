@@ -35,7 +35,7 @@ namespace Library.LMS.Models
             Roster.Add(student);
         }
 
-        public void AddAssignment(Assignment assignment) 
+        public void AddAssignment(Assignment assignment)
         {
             Assignments.Add(assignment);
         }

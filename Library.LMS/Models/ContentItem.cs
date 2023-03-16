@@ -15,6 +15,11 @@ namespace Library.LMS.Models
         public string Description { get { return _description ?? string.Empty; } set { _description = value; } }
 
         public ContentItem() { }
+        public ContentItem(string name, string descritption)
+        {
+            Description = descritption;
+            Name = name;
+        }
 
         public override string ToString()
         {

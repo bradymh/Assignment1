@@ -17,6 +17,11 @@ namespace Library.LMS.Models
         List<ContentItem> Content { get; set; } = new List<ContentItem>();
 
         public Module() { }
+        public Module(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
 
         public override string ToString()
         {
