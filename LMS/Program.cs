@@ -305,6 +305,8 @@ namespace LMS
                                                     string newDescription = Console.ReadLine() ?? string.Empty;
                                                     if (newDescription != string.Empty)
                                                         ChangingModule.Description = newDescription;
+
+                                                    //change content
                                                 }
 
                                             }
