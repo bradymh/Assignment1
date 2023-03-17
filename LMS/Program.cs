@@ -2,6 +2,7 @@ using Library.LMS.Models;
 using Library.LMS.Services;
 using Assignment2_Solution;
 using System.Linq.Expressions;
+using System;
 
 namespace LMS
 {
@@ -12,7 +13,7 @@ namespace LMS
             //List<Course> courses = new List<Course>();
             CourseService courseService = new CourseService();
             
-            List<Person> students = new List<Person>();
+            List<Person> People = new List<Person>();
 
             while (true)
             {
@@ -38,7 +39,8 @@ namespace LMS
                             Console.WriteLine("6. Update a course");
                             Console.WriteLine("7. Create an assignment");
                             Console.WriteLine("8. Change a courses modules");
-                            Console.WriteLine("9. Exit");
+                            Console.WriteLine("9. Edit announcements");
+                            Console.WriteLine("10. Exit");
                             Console.WriteLine("Enter an option: ");
 
                             string CourseChoice = Console.ReadLine() ?? string.Empty;
@@ -56,14 +58,20 @@ namespace LMS
                                     Console.WriteLine("Enter description: ");
                                     string Coursedescription = Console.ReadLine() ?? string.Empty;
 
-                                    courseService.AddCourse(new Course(CoursePrefix, CourseName, Coursedescription));
+                                    Console.WriteLine("Enter credit hours (Cannot be less than 1): ");
+                                    string CourseCreditHours = Console.ReadLine() ?? string.Empty;
+
+                                    if (int.TryParse(CourseCreditHours, out int CourseCreditHoursInt));
+                                    else CourseCreditHoursInt = 1;
+
+                                    courseService.AddCourse(new Course(CoursePrefix, CourseName, Coursedescription, CourseCreditHoursInt));
                                 }
                                 else if(courseInt == 2)
                                 {
                                     Person AddedStudent = new Person();
                                     Console.WriteLine("Enter student name: ");
                                     string PersonName = Console.ReadLine() ?? string.Empty;
-                                    foreach (var a in students)
+                                    foreach (var a in People)
                                     {
                                         if (a.Name == PersonName)
                                         {
@@ -92,7 +100,7 @@ namespace LMS
                                         Console.WriteLine("Enter student name: ");
                                         string RemovedStudent = Console.ReadLine() ?? string.Empty;
                                         bool FoundStudent = false;
-                                        foreach (var a in students)
+                                        foreach (var a in People)
                                         {
                                             if (a.Name == RemovedStudent)
                                             {
@@ -223,6 +231,11 @@ namespace LMS
                                     string newDescription = Console.ReadLine() ?? string.Empty;
                                     if (newDescription != string.Empty)
                                         ChangedCourse.Description = newDescription;
+
+                                    Console.WriteLine("Enter new credit hours (Leave blank if no change): ");
+                                    string newCreditHours = Console.ReadLine() ?? string.Empty;
+                                    if (newCreditHours != string.Empty && int.TryParse(newCreditHours, out int NewCreditHoursInt))
+                                        ChangedCourse.CreditHours = NewCreditHoursInt;
                                 }
                                 else if(courseInt == 7)
                                 {
@@ -305,8 +318,85 @@ namespace LMS
                                                     string newDescription = Console.ReadLine() ?? string.Empty;
                                                     if (newDescription != string.Empty)
                                                         ChangingModule.Description = newDescription;
-
                                                     //change content
+
+                                                    int ContentNumber = 1;
+                                                    foreach(var a in ChangingModule.Content)
+                                                    {
+                                                        Console.WriteLine($"{ContentNumber}. {a}");
+                                                        ContentNumber++;
+                                                    }
+
+                                                    Console.WriteLine("Content to change(0 to not change any): ");
+                                                    string ChangeContent = Console.ReadLine() ?? string.Empty;
+
+                                                    if (int.TryParse(ChangeContent, out int ContentIndex) && ContentIndex > 0)
+                                                    {
+                                                        Console.WriteLine("Enter new name (Leave blank if no change): ");
+                                                        string NewContentName = Console.ReadLine() ?? string.Empty;
+
+                                                        Console.WriteLine("Enter new description (Leave blank if no change): ");
+                                                        string NewContentDescription = Console.ReadLine() ?? string.Empty;
+
+                                                        if (ChangingModule.Content.ElementAt(ContentIndex-1) is FileItem)
+                                                        {
+                                                            Console.WriteLine("Enter new file path (Leave blank if no change): ");
+                                                            string NewFilePath = Console.ReadLine() ?? string.Empty;
+
+                                                            FileItem ChangingItem = (FileItem)ChangingModule.Content.ElementAt(ContentIndex-1);
+
+                                                            if(NewContentName != string.Empty)
+                                                                ChangingItem.Name = NewContentName;
+
+                                                            if(NewContentDescription != string.Empty)
+                                                                ChangingItem.Description = NewContentDescription;
+
+                                                            if(NewFilePath != string.Empty)
+                                                                ChangingItem.FilePath = NewFilePath;
+                                                        }
+                                                        else if(ChangingModule.Content.ElementAt(ContentIndex - 1) is PageItem)
+                                                        {
+                                                            Console.WriteLine("Enter new HTML Body (Leave blank if no change): ");
+                                                            string NewFilePath = Console.ReadLine() ?? string.Empty;
+
+                                                            PageItem ChangingItem = (PageItem)ChangingModule.Content.ElementAt(ContentIndex - 1);
+
+                                                            if (NewContentName != string.Empty)
+                                                                ChangingItem.Name = NewContentName;
+
+                                                            if (NewContentDescription != string.Empty)
+                                                                ChangingItem.Description = NewContentDescription;
+
+                                                            if (NewFilePath != string.Empty)
+                                                                ChangingItem.HTMLBody = NewFilePath;
+                                                        }
+                                                        else if(ChangingModule.Content.ElementAt(ContentIndex - 1) is AssignmentItem)
+                                                        {
+                                                            AssignmentItem ChangingItem = (AssignmentItem)ChangingModule.Content.ElementAt(ContentIndex - 1);
+
+                                                            int AssignmentNumber = 1;
+                                                            foreach(var a in CourseOfInterest.Assignments)
+                                                            {
+                                                                Console.WriteLine($"{AssignmentNumber}. {a}");
+                                                                AssignmentNumber++;
+                                                            }
+
+                                                            Console.WriteLine("Select assignment to add (Enter 0 if no change): ");
+                                                            string AssignmentIndex = Console.ReadLine() ?? string.Empty;
+
+                                                            if (int.TryParse(AssignmentIndex, out int NewAssignmentIndex) && NewAssignmentIndex > 0)
+                                                            {
+                                                                ChangingItem.AssignmentPath = CourseOfInterest.Assignments.ElementAt(NewAssignmentIndex - 1);
+                                                            }
+
+                                                            if (NewContentName != string.Empty)
+                                                                ChangingItem.Name = NewContentName;
+
+                                                            if (NewContentDescription != string.Empty)
+                                                                ChangingItem.Description = NewContentDescription;
+
+                                                        }
+                                                    }
                                                 }
 
                                             }
@@ -399,7 +489,83 @@ namespace LMS
                                         }
                                     }
                                 }
-                                else if(courseInt == 9)
+                                else if (courseInt == 9)
+                                {
+                                    Console.WriteLine("Enter course name: ");
+                                    string courseName = Console.ReadLine() ?? string.Empty;
+                                    Course CourseOfInterest = courseService.findCourse(courseName);
+
+
+                                    while(true)
+                                    { 
+                                        Console.WriteLine("1. Add announcment");
+                                        Console.WriteLine("2. View announcments");
+                                        Console.WriteLine("3. Update announcment");
+                                        Console.WriteLine("4. Delete announcment");
+                                        Console.WriteLine("5. Exit");
+                                        string announcmentChoice = Console.ReadLine() ?? string.Empty;
+
+                                        if (int.TryParse(announcmentChoice, out int AnnouncmentInt))
+                                        {
+                                            if (AnnouncmentInt == 1)
+                                            {
+                                                Console.WriteLine("Announcment text: ");
+                                                string announcment = Console.ReadLine() ?? string.Empty;
+
+                                                courseService.AddAnnouncment(CourseOfInterest, announcment);
+                                            }
+                                            else if (AnnouncmentInt == 2)
+                                            {
+                                                foreach (var a in CourseOfInterest.Announcments)
+                                                {
+                                                    Console.WriteLine(a + "\n");
+                                                }
+                                            }
+                                            else if (AnnouncmentInt == 3)
+                                            {
+                                                int announcmentnumber = 1;
+                                                foreach (var a in CourseOfInterest.Announcments)
+                                                {
+                                                    Console.WriteLine(announcmentnumber + ". " + a + "\n");
+                                                }
+
+                                                Console.WriteLine("Which announcment: ");
+                                                string announcmentAt = Console.ReadLine() ?? string.Empty;
+
+                                                if (int.TryParse(announcmentAt, out int AnnouncmentAtInt))
+                                                {
+                                                    Console.WriteLine("New announcment: ");
+                                                    string NewAnnouncment = Console.ReadLine() ?? string.Empty;
+
+                                                    CourseOfInterest.Announcments[AnnouncmentAtInt - 1] = NewAnnouncment;
+                                                }
+                                            }
+                                            else if(AnnouncmentInt == 4)
+                                            {
+                                                int announcmentnumber = 1;
+                                                foreach (var a in CourseOfInterest.Announcments)
+                                                {
+                                                    Console.WriteLine(announcmentnumber + ". " + a + "\n");
+                                                }
+
+                                                Console.WriteLine("Announcment to delete: ");
+                                                string announcmentAt = Console.ReadLine() ?? string.Empty;
+
+                                                if (int.TryParse(announcmentAt, out int AnnouncmentAtInt))
+                                                {
+                                                    CourseOfInterest.Announcments.RemoveAt(AnnouncmentAtInt - 1);
+                                                }
+                                            }
+                                            else if(AnnouncmentInt == 5)
+                                            {
+                                                break;
+                                            }
+                                        }
+
+                                    }
+
+                                }
+                                else if (courseInt == 10)
                                 {
                                     break;
                                 }
@@ -411,11 +577,12 @@ namespace LMS
                     {
                         while (true)
                         {
-                            Console.WriteLine("1. Add a student");
-                            Console.WriteLine("2. List all students");
-                            Console.WriteLine("3. Search for a student");
-                            Console.WriteLine("4. List all courses a student is taking");
-                            Console.WriteLine("5. Update a students information");
+                            //update for people
+                            Console.WriteLine("1. Add a person");
+                            Console.WriteLine("2. List all people");
+                            Console.WriteLine("3. Search for a person");
+                            Console.WriteLine("4. List all courses a person is in");
+                            Console.WriteLine("5. Update a persons information");
                             Console.WriteLine("6. Exit");
                             Console.WriteLine("Enter an option:");
 
@@ -425,17 +592,22 @@ namespace LMS
                             {
                                 if (StudentInt == 1)
                                 {
-                                    Console.WriteLine("Enter student name: ");
-                                    string StudentName = Console.ReadLine() ?? string.Empty;
+                                    Console.WriteLine("Enter name: ");
+                                    string PersonName = Console.ReadLine() ?? string.Empty;
 
-                                    Console.WriteLine("Enter student classification: ");
-                                    string Studentdescription = Console.ReadLine() ?? string.Empty;
+                                    Console.WriteLine("Enter classification: ");
+                                    string PersonDescription = Console.ReadLine() ?? string.Empty;
 
-                                    students.Add(new Person(StudentName, Studentdescription));
+                                    Console.WriteLine("1.Student\n2. Instructor\n3.TA\nSelection:");
+                                    string TypeOfPerson = Console.ReadLine() ?? string.Empty;
+
+
+                                    //different types
+                                    People.Add(new Student(PersonName, PersonDescription));
                                 }
                                 else if (StudentInt == 2)
                                 {
-                                    foreach (var a in students)
+                                    foreach (var a in People)
                                     {
                                         Console.WriteLine(a);
                                     }
@@ -445,7 +617,7 @@ namespace LMS
                                     Console.WriteLine("Enter student name: ");
                                     string StudentName = Console.ReadLine() ?? string.Empty;
                                     bool found = false;
-                                    foreach (var a in students)
+                                    foreach (var a in People)
                                     {
                                         if (a.Name == StudentName)
                                         {
@@ -465,7 +637,7 @@ namespace LMS
                                     string StudentName = Console.ReadLine() ?? string.Empty;
                                     Person currentStudent = new Person();
                                     bool found = false;
-                                    foreach (var a in students)
+                                    foreach (var a in People)
                                     {
                                         if (a.Name == StudentName)
                                         {
@@ -497,7 +669,7 @@ namespace LMS
                                     string StudentName = Console.ReadLine() ?? string.Empty;
                                     Person changedStudent = new Person();
                                     bool found = false;
-                                    foreach (var a in students)
+                                    foreach (var a in People)
                                     {
                                         if (a.Name == StudentName)
                                         {

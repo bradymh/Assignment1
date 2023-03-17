@@ -22,7 +22,9 @@ namespace Library.LMS.Models
         public string Description { get { return _description ?? string.Empty;} set { _description = value; } }
 
         private int? _credithours;
-        public int CreditHours { get { return _credithours ?? 1; } set { _credithours = value; } }
+        public int CreditHours { get { return _credithours ?? 1; } set { if (value < 0) _credithours = 1; else _credithours = value; } }
+
+        public List<string> Announcments { get; set; } = new List<string>();
 
         public List<Person> Roster { get; set; } = new List<Person>();
         
@@ -41,31 +43,33 @@ namespace Library.LMS.Models
             Roster = previousCourse.Roster;
             Assignments = previousCourse.Assignments;
             Modules = previousCourse.Modules;
+            Announcments = previousCourse.Announcments;
         }
 
-        public Course(string c, string n, string d)
+        public Course(string c, string n, string d, int hours)
         {
             CourseId = NewId();
             CoursePrefix = c;
             CourseCode();
             Name = n;
             Description = d;
+            CreditHours = hours;
         }
 
-        public void AddStudent(Person student)
-        {
-            Roster.Add(student);
-        }
+        //public void AddStudent(Person student)
+        //{
+        //    Roster.Add(student);
+        //}
 
-        public void AddAssignment(Assignment assignment)
-        {
-            Assignments.Add(assignment);
-        }
+        //public void AddAssignment(Assignment assignment)
+        //{
+        //    Assignments.Add(assignment);
+        //}
 
-        public void AddModule(Module module)
-        {
-            Modules.Add(module);
-        }
+        //public void AddModule(Module module)
+        //{
+        //    Modules.Add(module);
+        //}
 
         public override string ToString()
         {

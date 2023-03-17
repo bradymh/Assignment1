@@ -20,12 +20,12 @@ namespace Library.LMS.Services
 
         public void AddStudent(Person student, Course course)
         {
-            course.AddStudent(student);
+            course.Roster.Add(student);
         }
 
         public void AddModule(Module module, Course course)
         {
-            course.AddModule(module);
+            course.Modules.Add(module);
         }
         //using course name
         public Course findCourse(string courseName)
@@ -63,7 +63,12 @@ namespace Library.LMS.Services
 
         public void AddAssignment(Course course,Assignment assignment)
         {
-            course.AddAssignment(assignment);
+            course.Assignments.Add(assignment);
+        }
+
+        public void AddAnnouncment(Course course, string announcment)
+        {
+            course.Announcments.Add(announcment);
         }
     }
 }
