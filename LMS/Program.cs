@@ -40,7 +40,8 @@ namespace LMS
                             Console.WriteLine("7. Create an assignment");
                             Console.WriteLine("8. Change a courses modules");
                             Console.WriteLine("9. Edit announcements");
-                            Console.WriteLine("10. Exit");
+                            Console.WriteLine("10. Give grades to students");
+                            Console.WriteLine("11. Exit");
                             Console.WriteLine("Enter an option: ");
 
                             string CourseChoice = Console.ReadLine() ?? string.Empty;
@@ -270,7 +271,8 @@ namespace LMS
                                         Console.WriteLine("3. Update modules");
                                         Console.WriteLine("4. Delete modules");
                                         Console.WriteLine("5. Add content to modules");
-                                        Console.WriteLine("6. Exit");
+                                        Console.WriteLine("6. Delete content from modules");
+                                        Console.WriteLine("7. Exit");
 
                                         string Modulechoice = Console.ReadLine() ?? string.Empty;
 
@@ -289,9 +291,21 @@ namespace LMS
                                             }
                                             else if (ModuleInt == 2)
                                             {
+                                                int count = 1;
                                                 foreach (var m in CourseOfInterest.Modules)
                                                 {
-                                                    Console.WriteLine(m);
+                                                    Console.WriteLine($"{count}. {m}");
+                                                    count++;
+                                                }
+                                                Console.WriteLine("Select specific module to view content (0 to exit): ");
+                                                string changeModule = Console.ReadLine() ?? string.Empty;
+
+                                                if (int.TryParse(changeModule, out int moduleindex) && moduleindex > 0)
+                                                {
+                                                    foreach (var c in CourseOfInterest.Modules.ElementAt(moduleindex - 1).Content)
+                                                    {
+                                                        Console.WriteLine(c);
+                                                    }
                                                 }
                                             }
                                             else if (ModuleInt == 3)
@@ -484,6 +498,35 @@ namespace LMS
                                             }
                                             else if (ModuleInt == 6)
                                             {
+                                                int count = 1;
+                                                foreach (var m in CourseOfInterest.Modules)
+                                                {
+                                                    Console.WriteLine($"{count}. {m}");
+                                                    count++;
+                                                }
+                                                Console.WriteLine("Module: ");
+                                                string changeModule = Console.ReadLine() ?? string.Empty;
+
+                                                if (int.TryParse(changeModule, out int moduleindex))
+                                                {
+                                                    Module ChangingModule = CourseOfInterest.Modules.ElementAt(moduleindex - 1);
+                                                    int ContentCount = 1;
+                                                    foreach(var c in changeModule)
+                                                    {
+                                                        Console.WriteLine($"{ContentCount}. {c}");
+                                                        ContentCount++;
+                                                    }
+                                                    Console.WriteLine("Content to delete: ");
+                                                    string removeContent = Console.ReadLine() ?? string.Empty;
+
+                                                    if(int.TryParse(removeContent, out int contentcount))
+                                                    {
+                                                        ChangingModule.Content.RemoveAt(contentcount - 1);
+                                                    }
+                                                }
+                                            }
+                                            else if (ModuleInt == 7)
+                                            {
                                                 break;
                                             }
                                         }
@@ -567,6 +610,82 @@ namespace LMS
                                 }
                                 else if (courseInt == 10)
                                 {
+                                    Course CourseofInterest;
+                                    Console.WriteLine("Enter course name: ");
+
+                                    string CourseName = Console.ReadLine() ?? string.Empty;
+                                    CourseofInterest = courseService.findCourse(CourseName);
+
+                                    while (true)
+                                    {
+
+                                        int assignNumber = 1;
+                                        foreach(var a in CourseofInterest.Assignments)
+                                        {
+                                            Console.WriteLine($"{assignNumber}. a");
+                                            assignNumber++;
+                                        }
+                                        Console.WriteLine("Select Assignment (0 to exit)");
+                                        string announcmentAt = Console.ReadLine() ?? string.Empty;
+
+                                        if (int.TryParse(announcmentAt, out int AnnouncmentAtInt) && AnnouncmentAtInt > 0)
+                                        {
+                                            Assignment AssignmentOfInterest = CourseofInterest.Assignments.ElementAt(AnnouncmentAtInt - 1);
+
+                                            while (true)
+                                            {
+                                                int studentNumber = 1;
+                                                foreach(var s in CourseofInterest.Roster)
+                                                {
+                                                    if(s is Student)
+                                                    {
+                                                        Console.WriteLine($"{studentNumber}. {s.Name} - {s.Classification}");
+                                                    }
+                                                    else if(s is Instructor)
+                                                    {
+                                                        Console.WriteLine($"Instructor: {s}");
+                                                    }
+                                                    else if(s is TA)
+                                                    {
+                                                        Console.WriteLine($"TA: {s}");
+                                                    }
+                                                    studentNumber++;
+                                                }
+                                                Console.WriteLine("Must select student (0 to exit): ");
+                                                string studentIndex = Console.ReadLine() ?? string.Empty;
+
+                                                if (int.TryParse(studentIndex, out int StudentIndexInt) && StudentIndexInt > 0)
+                                                {
+                                                    if (!(CourseofInterest.Roster.ElementAt(StudentIndexInt-1) is Student))
+                                                    {
+                                                        Console.WriteLine("Instructors and TAs cannot have grades, please select student");
+                                                    }
+                                                    else
+                                                    {
+                                                        Student gradedStudent = (Student)CourseofInterest.Roster[StudentIndexInt - 1];
+                                                        Console.WriteLine("Enter grade out of " + AssignmentOfInterest.TotalAvailablePoints);
+                                                        string grade = Console.ReadLine() ?? string.Empty;
+
+                                                        if (AssignmentOfInterest.AddGrade(gradedStudent, grade))
+                                                            Console.WriteLine("Success");
+                                                        else Console.WriteLine("Error unable to add grade");
+                                                    }
+                                                }
+                                                else break;
+                                            }
+                                        }
+                                        else break;
+                                    }
+                                    foreach (var s in CourseofInterest.Roster)
+                                    {
+                                        if(s is Student)
+                                        {
+                                            CourseofInterest.CalculateStudentGrade((Student)s);
+                                        }
+                                    }
+                                }
+                                else if (courseInt == 11)
+                                {
                                     break;
                                 }
                             }
@@ -577,7 +696,6 @@ namespace LMS
                     {
                         while (true)
                         {
-                            //update for people
                             Console.WriteLine("1. Add a person");
                             Console.WriteLine("2. List all people");
                             Console.WriteLine("3. Search for a person");
@@ -598,12 +716,24 @@ namespace LMS
                                     Console.WriteLine("Enter classification: ");
                                     string PersonDescription = Console.ReadLine() ?? string.Empty;
 
-                                    Console.WriteLine("1.Student\n2. Instructor\n3.TA\nSelection:");
+                                    Console.WriteLine("1. Student\n2. Instructor\n3. TA\nSelection:");
                                     string TypeOfPerson = Console.ReadLine() ?? string.Empty;
 
-
-                                    //different types
-                                    People.Add(new Student(PersonName, PersonDescription));
+                                    if(int.TryParse(TypeOfPerson, out int TypeOfPersonInt))
+                                    {
+                                        if(TypeOfPersonInt ==1)
+                                        {
+                                            People.Add(new Student(PersonName, PersonDescription));
+                                        }
+                                        else if (TypeOfPersonInt == 2)
+                                        {
+                                            People.Add(new Instructor(PersonName, PersonDescription));
+                                        }
+                                        else if (TypeOfPersonInt == 3)
+                                        {
+                                            People.Add(new TA(PersonName, PersonDescription));
+                                        }
+                                    }
                                 }
                                 else if (StudentInt == 2)
                             {
@@ -691,7 +821,7 @@ namespace LMS
                                 }
                                 else if (StudentInt == 3)
                                 {
-                                    Console.WriteLine("Enter student name: ");
+                                    Console.WriteLine("Enter name: ");
                                     string StudentName = Console.ReadLine() ?? string.Empty;
                                     bool found = false;
                                     foreach (var a in People)
@@ -705,12 +835,12 @@ namespace LMS
                                     }
                                     if (!found)
                                     {
-                                        Console.WriteLine("Student not found");
+                                        Console.WriteLine("Not found");
                                     }
                                 }
                                 else if (StudentInt == 4)
                                 {
-                                    Console.WriteLine("Enter student name: ");
+                                    Console.WriteLine("Enter name: ");
                                     string StudentName = Console.ReadLine() ?? string.Empty;
                                     Person currentStudent = new Person();
                                     bool found = false;
@@ -737,12 +867,12 @@ namespace LMS
                                             }
                                         }
                                     }
-                                    else { Console.WriteLine("Student not found"); }
+                                    else { Console.WriteLine("Not found"); }
 
                                 }
                                 else if (StudentInt == 5)
                                 {
-                                    Console.WriteLine("Enter student name: ");
+                                    Console.WriteLine("Enter name: ");
                                     string StudentName = Console.ReadLine() ?? string.Empty;
                                     Person changedStudent = new Person();
                                     bool found = false;
@@ -757,7 +887,7 @@ namespace LMS
                                     }
                                     if (!found)
                                     {
-                                        Console.WriteLine("Student not found");
+                                        Console.WriteLine("Not found");
                                     }
                                     else
                                     {

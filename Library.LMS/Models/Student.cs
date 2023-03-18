@@ -15,9 +15,9 @@ namespace Library.LMS.Models
         private int _gpa;
         public int GPA { get { return _gpa; } set { _gpa = value; } }
 
-        public Dictionary<Course, string> CourseGrades { get; set; } = new Dictionary<Course, string>();
+        public Dictionary<Course, int> CourseGrades { get; set; } = new Dictionary<Course, int>();
 
-        public bool AddGrade(Course c, string grade)
+        public bool AddGrade(Course c, int grade)
         {
             try
             {
@@ -47,11 +47,19 @@ namespace Library.LMS.Models
             int sumgrades = 0, sumcredits = 0;
             foreach(var a in CourseGrades)
             {
-                int grade = int.Parse(a.Value); 
+                int grade = a.Value; 
                 sumgrades += a.Key.CreditHours * grade;
                 sumcredits += a.Key.CreditHours;
             }
+            if (sumcredits < 1)
+                sumcredits = 1;
+            GPA = sumgrades/sumcredits;
             return sumgrades/sumcredits;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + $" GPA: {GPA}";
         }
     }
 }

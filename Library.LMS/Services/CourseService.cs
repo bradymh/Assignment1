@@ -18,9 +18,15 @@ namespace Library.LMS.Services
             courses.Add(course); 
         }
 
-        public void AddStudent(Person student, Course course)
+        public void AddStudent(Person person, Course course)
         {
-            course.Roster.Add(student);
+            course.Roster.Add(person);
+            if(person is Student)
+            {
+                Student student = (Student)person;
+                course.StudentGrades.Add(student, 0);
+                student.AddGrade(course, 0);
+            }
         }
 
         public void AddModule(Module module, Course course)
